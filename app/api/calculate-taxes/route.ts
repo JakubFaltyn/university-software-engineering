@@ -2,17 +2,7 @@ import { NextResponse } from "next/server";
 import { parse } from "csv-parse/sync";
 import { calculateEmployeeTax } from "./functions/employee/calculateEmployeeTax";
 import { calculateEmployerTax } from "./functions/employer/calculateEmployerTax";
-
-interface TransactionRow {
-  name: string;
-  annualSalary: number;
-}
-
-interface CompanyTotals {
-  totalAnnualSalaries: number;
-  totalAnnualTaxes: number;
-  totalAnnualCost: number;
-}
+import { TransactionRow, EmployeeTaxCalculation, CompanyTotals } from "./types";
 
 export async function POST(req: Request) {
   try {
@@ -32,7 +22,7 @@ export async function POST(req: Request) {
     }) as TransactionRow[];
 
     // Calculate taxes for each employee
-    const taxCalculations = employees.map((row) => {
+    const taxCalculations: EmployeeTaxCalculation[] = employees.map((row) => {
       const employeeTax = calculateEmployeeTax(row.annualSalary);
       const employerTax = calculateEmployerTax(row.annualSalary);
 
