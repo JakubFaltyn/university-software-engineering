@@ -1,4 +1,6 @@
 import { MainForm } from "@/components/blocks/MainForm";
+import Details from "@/components/blocks/Details";
+
 export default function Home() {
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 pt-10">
@@ -10,9 +12,11 @@ export default function Home() {
                     </div>
 
                     <MainForm />
-
+                    
                 </div>
             </div>
+            <Details />
         </div>
+        
     );
 }
