@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { parse } from "csv-parse/sync";
+import { parse } from "papaparse";
 import { calculateEmployeeTax } from "./functions/employee/calculateEmployeeTax";
 import { calculateEmployerTax } from "./functions/employer/calculateEmployerTax";
 import { TransactionRow, EmployeeTaxCalculation, CompanyTotals } from "./types";
@@ -16,23 +16,24 @@ export async function POST(req: Request) {
     // Read and parse the CSV file
     const csvText = await file.text();
     const employees = parse(csvText, {
-      columns: true,
-      skip_empty_lines: true,
-      cast: true,
-    }) as TransactionRow[];
-
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: true,
+    }).data as TransactionRow[];
     // Calculate taxes for each employee
-    const taxCalculations: EmployeeTaxCalculation[] = employees.map((row) => {
-      const employeeTax = calculateEmployeeTax(row.annualSalary);
-      const employerTax = calculateEmployerTax(row.annualSalary);
+    const taxCalculations: EmployeeTaxCalculation[] = employees
+      .filter((row) => !isNaN(row.annualSalary))
+      .map((row) => {
+        const employeeTax = calculateEmployeeTax(row.annualSalary);
+        const employerTax = calculateEmployerTax(row.annualSalary);
 
-      return {
-        name: row.name,
-        annualSalary: row.annualSalary,
-        employeeTax,
-        employerTax,
-      };
-    });
+        return {
+          name: row.name,
+          annualSalary: row.annualSalary,
+          employeeTax,
+          employerTax,
+        };
+      });
 
     // Calculate company totals
     const companyTotals = taxCalculations.reduce<CompanyTotals>(

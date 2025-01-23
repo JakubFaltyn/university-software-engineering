@@ -19,15 +19,22 @@ export interface EmployeeTaxCalculation {
 // Based on the usage, these interfaces would need to match
 // the return types of calculateEmployeeTax and calculateEmployerTax functions
 export interface EmployeeTax {
-  // Add specific fields returned by calculateEmployeeTax
+  pension: number;
+  disability: number;
+  sickness: number;
+  incomeTax: number;
   totalTaxes: number;
-  // Add other relevant fields
+  postTaxSalary: number;
 }
 
 export interface EmployerTax {
+  pension: number;
+  disability: number;
+  accident: number;
+  laborFund: number;
+  guaranteedBenefits: number;
   totalTaxes: number;
   totalCost: number;
-  // Add other relevant fields
 }
 
 export interface TaxCalculationResponse {
