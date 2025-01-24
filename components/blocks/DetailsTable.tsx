@@ -91,18 +91,18 @@ function DataTable() {
     <div className="my-5 p-10">
       <h2 className="text-2xl font-bold mb-6">Employee Tax Details</h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-300">
+        <table className="min-w-full border-collapse border border-gray-300 text-sm">
           <thead>
             <tr className="bg-slate-900 text-white">
               <th className="border p-2">Name</th>
               <th className="border p-2">Annual Salary</th>
-              <th className="border p-2" colSpan={4}>
+              <th className="border p-2" colSpan={5}>
                 Employee Taxes
               </th>
               <th className="border p-2" colSpan={5}>
                 Employer Taxes
               </th>
-              <th className="border p-2" colSpan={2}>
+              <th className="border p-2" colSpan={4}>
                 Summary
               </th>
             </tr>
@@ -113,6 +113,10 @@ function DataTable() {
               {renderSortableHeader("Pension", "employeeTax.pension")}
               {renderSortableHeader("Disability", "employeeTax.disability")}
               {renderSortableHeader("Sickness", "employeeTax.sickness")}
+              {renderSortableHeader(
+                "Health Insurance",
+                "employeeTax.healthInsurance"
+              )}
               {renderSortableHeader("Income Tax", "employeeTax.incomeTax")}
               {/* Employer Tax Headers */}
               {renderSortableHeader("Pension", "employerTax.pension")}
@@ -124,11 +128,16 @@ function DataTable() {
                 "employerTax.guaranteedBenefits"
               )}
               {/* Summary Headers */}
+              {renderSortableHeader("Net Salary", "employeeTax.postTaxSalary")}
               {renderSortableHeader(
                 "Total Employee Taxes",
                 "employeeTax.totalTaxes"
               )}
-              {renderSortableHeader("Net Salary", "employeeTax.postTaxSalary")}
+              {renderSortableHeader(
+                "Total Employer Taxes",
+                "employerTax.totalTaxes"
+              )}
+              {renderSortableHeader("Total Cost", "employerTax.totalCost")}
             </tr>
           </thead>
           <tbody className="[&:nth-child(odd)]:bg-slate-100">
@@ -148,6 +157,9 @@ function DataTable() {
                 </td>
                 <td className="border p-2">
                   {formatPLN(detail.employeeTax.sickness)}
+                </td>
+                <td className="border p-2">
+                  {formatPLN(detail.employeeTax.healthInsurance)}
                 </td>
                 <td className="border p-2">
                   {formatPLN(detail.employeeTax.incomeTax)}
@@ -170,10 +182,16 @@ function DataTable() {
                 </td>
                 {/* Summary */}
                 <td className="border p-2">
+                  {formatPLN(detail.employeeTax.postTaxSalary)}
+                </td>
+                <td className="border p-2">
                   {formatPLN(detail.employeeTax.totalTaxes)}
                 </td>
                 <td className="border p-2">
-                  {formatPLN(detail.employeeTax.postTaxSalary)}
+                  {formatPLN(detail.employerTax.totalTaxes)}
+                </td>
+                <td className="border p-2">
+                  {formatPLN(detail.employerTax.totalCost)}
                 </td>
               </tr>
             ))}

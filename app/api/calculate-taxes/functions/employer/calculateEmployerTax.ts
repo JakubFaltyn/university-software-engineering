@@ -1,3 +1,4 @@
+import { roundTax } from "../../../../../lib/utils";
 import { EMPLOYER_TAX_RATES } from "./taxRates";
 
 export function calculateEmployerTax(annualSalary: number) {
@@ -14,20 +15,29 @@ export function calculateEmployerTax(annualSalary: number) {
   }
 
   // Social Security components
-  const pension = annualSalary * EMPLOYER_TAX_RATES.social_security.pension;
-  const disability =
-    annualSalary * EMPLOYER_TAX_RATES.social_security.disability;
-  const accident = annualSalary * EMPLOYER_TAX_RATES.social_security.accident;
+  const pension = roundTax(
+    annualSalary * EMPLOYER_TAX_RATES.social_security.pension
+  );
+  const disability = roundTax(
+    annualSalary * EMPLOYER_TAX_RATES.social_security.disability
+  );
+  const accident = roundTax(
+    annualSalary * EMPLOYER_TAX_RATES.social_security.accident
+  );
 
   // Labor Funds components
-  const laborFund = annualSalary * EMPLOYER_TAX_RATES.labor_funds.labor_fund;
-  const guaranteedBenefits =
-    annualSalary * EMPLOYER_TAX_RATES.labor_funds.guaranteed_benefits;
+  const laborFund = roundTax(
+    annualSalary * EMPLOYER_TAX_RATES.labor_funds.labor_fund
+  );
+  const guaranteedBenefits = roundTax(
+    annualSalary * EMPLOYER_TAX_RATES.labor_funds.guaranteed_benefits
+  );
 
   // Total employer taxes
-  const totalTaxes =
-    pension + disability + accident + laborFund + guaranteedBenefits;
-  const totalCost = annualSalary + totalTaxes;
+  const totalTaxes = roundTax(
+    pension + disability + accident + laborFund + guaranteedBenefits
+  );
+  const totalCost = roundTax(annualSalary + totalTaxes);
 
   return {
     pension,

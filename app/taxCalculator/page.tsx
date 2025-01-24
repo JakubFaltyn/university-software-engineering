@@ -6,7 +6,7 @@ import Totals from "@/components/blocks/Totals";
 
 export default function TaxCalculator() {
   return (
-    <div className="mx-auto max-w-8xl sm:px-6 lg:px-8 pt-10">
+    <div className="mx-auto sm:px-2 lg:px-4 pt-10">
       <div className="bg-white rounded-3xl flex overflow-hidden">
         <div className="w-2/3 p-10">
           <CsvForm />

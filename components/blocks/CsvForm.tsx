@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTaxStore } from "@/providers/taxStoreProvider";
 import { TaxCalculationResponse } from "@/app/api/calculate-taxes/types";
+import { convertTaxCalculationsToCSV } from "@/lib/utils";
 
 // Define the schema for form validation
 const formSchema = z.object({
@@ -58,20 +59,43 @@ export function CsvForm() {
     }
   };
 
+  const handleDownload = () => {
+    if (!results) return;
+
+    const csvContent = convertTaxCalculationsToCSV(results);
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", "tax_calculations.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-2xl leading-[1.25]">Calculate your taxes</h1>
-        <button
-          type="button"
-          onClick={() => {
-            form.reset();
-            clearCsvResults();
-          }}
-          className="underline text-slate-700 hover:text-slate-900 text-base leading-[150%]"
-        >
-          Clear All
-        </button>
+        <div className="flex gap-4">
+          {results && (
+            <Button type="button" variant="outline" onClick={handleDownload}>
+              Download Calculations
+            </Button>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              form.reset();
+              clearCsvResults();
+            }}
+            className="underline text-slate-700 hover:text-slate-900 text-base leading-[150%]"
+          >
+            Clear All
+          </button>
+        </div>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
