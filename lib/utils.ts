@@ -61,3 +61,7 @@ export function convertTaxCalculationsToCSV(
 
   return csvContent;
 }
+
+export function roundTax(tax: number) {
+  return Math.round(tax * 100) / 100;
+}

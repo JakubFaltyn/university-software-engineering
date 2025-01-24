@@ -1,3 +1,4 @@
+import { roundTax } from "../../../../../lib/utils";
 import { EMPLOYEE_TAX_RATES } from "./taxRates";
 
 function calculateIncomeTax(annualIncome: number): number {
@@ -29,24 +30,30 @@ export function calculateEmployeeTax(annualSalary: number) {
   }
 
   // Social Security components
-  const pension = annualSalary * EMPLOYEE_TAX_RATES.social_security.pension;
-  const disability =
-    annualSalary * EMPLOYEE_TAX_RATES.social_security.disability;
-  const sickness = annualSalary * EMPLOYEE_TAX_RATES.social_security.sickness;
+  const pension = roundTax(
+    annualSalary * EMPLOYEE_TAX_RATES.social_security.pension
+  );
+  const disability = roundTax(
+    annualSalary * EMPLOYEE_TAX_RATES.social_security.disability
+  );
+  const sickness = roundTax(
+    annualSalary * EMPLOYEE_TAX_RATES.social_security.sickness
+  );
 
-  const totalDeductions = pension + disability + sickness;
+  const totalDeductions = roundTax(pension + disability + sickness);
 
   // Health Insurance - calculated after social security deductions
-  const healthInsurance =
-    (annualSalary - totalDeductions) * EMPLOYEE_TAX_RATES.health_insurance.rate;
+  const healthInsurance = roundTax(
+    (annualSalary - totalDeductions) * EMPLOYEE_TAX_RATES.health_insurance.rate
+  );
 
   // Income Tax - based on annual salary after deductions
-  const taxableIncome = annualSalary - totalDeductions;
-  const incomeTax = calculateIncomeTax(taxableIncome);
+  const taxableIncome = roundTax(annualSalary - totalDeductions);
+  const incomeTax = roundTax(calculateIncomeTax(taxableIncome));
 
   // Total employee taxes
-  const totalTaxes = totalDeductions + healthInsurance + incomeTax;
-  const postTaxSalary = annualSalary - totalTaxes;
+  const totalTaxes = roundTax(totalDeductions + healthInsurance + incomeTax);
+  const postTaxSalary = roundTax(annualSalary - totalTaxes);
 
   return {
     pension,
