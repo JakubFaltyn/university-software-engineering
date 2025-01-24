@@ -4,15 +4,15 @@ import "./globals.css";
 import { TaxStoreProvider } from "@/providers/taxStoreProvider";
 import Header from "@/components/blocks/Header";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const jakartaSans = localFont({
+  src: [
+    {
+      path: "./fonts/PlusJakartaSans-VariableFont_wght.ttf",
+      weight: "400 700",
+      style: "normal",
+    }
+  ],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
+        className={`${jakartaSans.className} antialiased bg-slate-100`}
       >
         <Header />
         <TaxStoreProvider>{children}</TaxStoreProvider>
