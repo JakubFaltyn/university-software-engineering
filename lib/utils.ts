@@ -1,3 +1,4 @@
+import { TaxCalculationResponse } from "@/app/api/calculate-taxes/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
